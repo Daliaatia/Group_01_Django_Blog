@@ -1,0 +1,50 @@
+{%extends 'admin_panel/layouts/base.html'%} 
+{% load static %}
+{% block content %}
+  <div class="">
+    <h1 class="m-5" style="display: inline;"> Users</h1>
+</div>
+  <div class="card-body">
+    <div class="">
+      <table class="table tablesorter " id="">
+        <thead class=" text-primary">
+          <tr>
+            <th class="text-center">
+              User
+            </th>
+          
+            <th class="text-center">
+              Block
+            </th>
+            <th class="text-center">
+              Promote
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for user in  object_list %}
+          
+          <tr {% if user.is_superuser %} style="background-color: red;" {%endif%}>
+            <td class="text-center">
+             {{ user.username }}
+            </td>
+            <td class="text-center">
+                {% if not user.is_superuser%}
+                <a href="{% url 'block_user' user.id %}" class="btn btn-danger">
+                    {% if user.is_blocked %} Unlock {%else%} lock {% endif %}
+                </a>
+                {% endif %}
+            </td>
+            <td class="text-center">
+                {% if not user.is_superuser%}
+                <a href="{% url 'promote_user' user.id %}" class="btn btn-info">Promote</a>
+                {% endif %}
+            </td>
+            
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
